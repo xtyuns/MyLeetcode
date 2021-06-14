@@ -400,3 +400,33 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 14- I. 剪绳子
+
+> 动态规划，ok
+>
+> ​	关键信息: 当 n < 3 时 dp[2] = 1{因为必须要切一刀}，但是当 n > 3 时 dp[2] = 2{此时一定至少切过一刀了, 因此 dp[2] = 2}，同理 dp[3] 也不同
+
+```java
+class Solution {
+    public int cuttingRope(int n) {
+        if (n < 4) return n-1;
+        int[] dp = new int[n + 1];
+        for (int i = 1; i < 4; i++) {
+            dp[i] = i;
+        }
+
+        for (int i = 4; i <= n; i++) {
+            for (int j = 1; j <= i / 2; j++) {
+                dp[i] = Math.max(dp[i], dp[j] * dp[i - j]);
+            }
+        }
+
+        return dp[n];
+    }
+}
+```
+
