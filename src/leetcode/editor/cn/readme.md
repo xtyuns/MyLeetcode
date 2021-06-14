@@ -436,6 +436,8 @@ class Solution {
 
 ## 14- II. 剪绳子 II
 
+> 贪心，每次都剪为长度为 3 的绳子(最后一段除外)，ok
+
 ```java
 class Solution {
     public int cuttingRope(int n) {
@@ -451,6 +453,33 @@ class Solution {
             n -= 3;
         }
         return (int) (ans * n % r);
+    }
+}
+```
+
+
+
+
+
+## 15. 二进制中1的个数
+
+> 一、暴力，先转换为二进制字符串再进行字符遍历，ok
+>
+> 二、位运算，n & 1 = 1则 ans++，然后 n>>>1，ok
+>
+> ​	高位等于1时为负数，所以while 循环条件不能为 n > 0，只可以是 n != 0
+
+```java
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int ans = 0;
+        while (n != 0) {
+            ans += (n & 1) == 1 ? 1 : 0;
+            n = n >>> 1;
+        }
+
+        return ans;
     }
 }
 ```
