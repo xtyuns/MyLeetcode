@@ -531,3 +531,53 @@ class Solution {
 
 
 
+
+
+## 18. 删除链表的节点
+
+> 一、链表指针移动，ok
+>
+> 二、递归，ok
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode deleteNode(ListNode head, int val) {
+        if (null == head) return null;
+        if (head.val == val) return head.next;
+
+        ListNode cur = head;
+        while (cur.next != null) {
+            if (cur.next.val == val) {
+                cur.next = cur.next.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+        
+        return head;
+    }
+}
+```
+
+```java
+class Solution {
+    public ListNode deleteNode(ListNode head, int val) {
+        if (null == head) return null;
+        if (head.val == val) return head.next;
+        else head.next = deleteNode(head.next, val);
+
+        return head;
+    }
+}
+```
+
+
+
