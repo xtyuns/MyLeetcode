@@ -581,3 +581,38 @@ class Solution {
 
 
 
+
+
+## 21. 调整数组顺序使奇数位于偶数前面
+
+> 一、快排思想，双指针交换数据，perfect
+>
+> 二、快慢指针，快指针查找奇数并与慢指针交换数据，ok
+
+```java
+class Solution {
+    public int[] exchange(int[] nums) {
+        int l = 0, r = nums.length - 1;
+
+        while (l < r) {
+            while (l < r) {
+                if (nums[l] % 2 == 1) l++;
+                else break;
+            }
+            while (l < r) {
+                if (nums[r] % 2 == 0) r--;
+                else break;
+            }
+
+            if (l < r) {
+                int temp = nums[l];
+                nums[l] = nums[r];
+                nums[r] = temp;
+            }
+        }
+
+        return nums;
+    }
+}
+```
+
