@@ -505,3 +505,29 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 17. 打印从1到最大的n位数
+
+> 一、暴力循环，ok
+>
+> 二、dfs 全排列，未验证
+
+```java
+class Solution {
+    public int[] printNumbers(int n) {
+        int len = (int) (Math.pow(10, n) - 1);
+        int[] nums = new int[len];
+        for (int i = 0; i < len;) {
+            nums[i] = ++i;
+        }
+
+        return nums;
+    }
+}
+```
+
+
+
