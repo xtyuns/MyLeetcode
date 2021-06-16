@@ -583,6 +583,33 @@ class Solution {
 
 
 
+## 20. 表示数值的字符串
+
+> 暴力破解，ok
+>
+> 自动机，不会写
+
+```java
+class Solution {
+    public boolean isNumber(String s) {
+        if (null == s) return false;
+        s = s.trim();
+        try {
+            Float.parseFloat(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        char last = s.charAt(s.length() - 1);
+        return last >= '0' && last <= '9' || last == '.';
+    }
+}
+```
+
+
+
+
+
 ## 21. 调整数组顺序使奇数位于偶数前面
 
 > 一、快排思想，双指针交换数据，perfect
@@ -620,25 +647,34 @@ class Solution {
 
 
 
-## 20. 表示数值的字符串
+## 22. 链表中倒数第k个节点
 
-> 暴力破解，ok
->
-> 自动机，不会写
+> 指定长度的快慢指针，ok
 
 ```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
 class Solution {
-    public boolean isNumber(String s) {
-        if (null == s) return false;
-        s = s.trim();
-        try {
-            Float.parseFloat(s);
-        } catch (NumberFormatException e) {
-            return false;
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        ListNode cur = head;
+        ListNode fast = cur;
+        for (int i = 0; i < k; i++) {
+            if (null == fast) return null;
+            fast = fast.next;
         }
 
-        char last = s.charAt(s.length() - 1);
-        return last >= '0' && last <= '9' || last == '.';
+        while (fast != null) {
+            cur = cur.next;
+            fast = fast.next;
+        }
+
+        return cur;
     }
 }
 ```
