@@ -616,3 +616,30 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 20. 表示数值的字符串
+
+> 暴力破解，ok
+>
+> 自动机，不会写
+
+```java
+class Solution {
+    public boolean isNumber(String s) {
+        if (null == s) return false;
+        s = s.trim();
+        try {
+            Float.parseFloat(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        char last = s.charAt(s.length() - 1);
+        return last >= '0' && last <= '9' || last == '.';
+    }
+}
+```
+
