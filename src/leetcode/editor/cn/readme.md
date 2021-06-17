@@ -754,3 +754,62 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 25. 合并两个排序的链表
+
+> 一、使用两个指针在两个链表上移动，使最终排序链表的指针始终指向较小的值，并移动其链表上的指针，ok
+>
+> 二、递归逐渐缩小问题实现合并，ok
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode merge = new ListNode(-1);
+        ListNode cur = merge;
+
+        while (null != l1 && null != l2) {
+            if (l1.val < l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
+            } else {
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        if (null != l1) cur.next = l1;
+        if (null != l2) cur.next = l2;
+
+        return merge.next;
+    }
+}
+```
+
+```java
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (null == l1) return l2;
+        if (null == l2) return l1;
+
+        if (l1.val < l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
+    }
+}
+```
+
