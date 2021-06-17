@@ -880,3 +880,34 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 28. 对称的二叉树
+
+> 递归，dfs，ok
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if (null == root) return true;
+        return isImg(root.left, root.right);
+    }
+
+    private boolean isImg(TreeNode left, TreeNode right) {
+        if (null == left || null == right) return left == right;
+        return left.val == right.val && isImg(left.left, right.right) && isImg(left.right, right.left);
+    }
+}
+```
+
