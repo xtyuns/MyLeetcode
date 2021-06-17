@@ -813,3 +813,40 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 26. 树的子结构
+
+> 递归，ok
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (null == A || null == B) return false;
+        if (A.val == B.val && isEq(A.left, B.left) && isEq(A.right, B.right)) {
+            return true;
+        }
+
+        return isSubStructure(A.left, B) || isSubStructure(A.right, B);
+    }
+
+    private boolean isEq(TreeNode tree1, TreeNode tree2) {
+        // 子树的所有节点递归判断相等了, 则返回真, 否则返回假
+        if (null == tree1 || null == tree2) return null == tree2;
+        // 先序遍历
+        return tree1.val == tree2.val && isEq(tree1.left, tree2.left) && isEq(tree1.right, tree2.right);
+    }
+}
+```
+
