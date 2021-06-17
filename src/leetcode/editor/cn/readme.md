@@ -856,7 +856,7 @@ class Solution {
 
 ## 27. 二叉树的镜像
 
-> 递归，bfs，ok
+> 递归，dfs，ok
 
 ```java
 /**
