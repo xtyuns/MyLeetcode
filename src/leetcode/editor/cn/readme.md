@@ -850,3 +850,33 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 27. 二叉树的镜像
+
+> 递归，bfs，ok
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode mirrorTree(TreeNode root) {
+        if (null == root) return null;
+        TreeNode tmp = root.left;
+        root.left = mirrorTree(root.right);
+        root.right = mirrorTree(tmp);
+
+        return root;
+    }
+}
+```
+
