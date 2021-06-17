@@ -679,3 +679,78 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 24. 反转链表
+
+> 一、使用辅助栈，浪费空间，ok
+>
+> 二、递归，头节点置尾的操作较难理解，ok
+>
+> 三、操作链表上的指针来实现链表反转，ok
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        Stack<Integer> stack = new Stack<>();
+        while (head != null) {
+            stack.push(head.val);
+            head = head.next;
+        }
+
+        ListNode reverse = new ListNode(-1);
+        ListNode cur = reverse;
+        while (!stack.empty()) {
+            cur.next = new ListNode(stack.pop());
+            cur = cur.next;
+        }
+
+        return reverse.next;
+    }
+}
+```
+
+```java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (null == head || null == head.next) return head;
+        ListNode reverse = reverseList(head.next);
+
+        // head.next 进行反转之后, head.next 节点就变为了反转链表的最后一个节点
+        // 此时将未参与反转操作的 head 节点放置到反转链表的末尾
+        head.next.next = head;
+        // head 变为最后一个节点, 将 head.next 置为 null, 消除环形链表
+        head.next = null;
+
+        return reverse;
+    }
+}
+```
+
+```java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+        while (cur != null) {
+            ListNode tmp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = tmp;
+        }
+
+        return pre;
+    }
+}
+```
+
