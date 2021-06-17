@@ -911,3 +911,43 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 29. 顺时针打印矩阵
+
+> 正常解题，顺时针遍历，ok
+
+```java
+class Solution {
+    public int[] spiralOrder(int[][] matrix) {
+        if (matrix.length == 0) return new int[0];
+        int left = 0, right = matrix[0].length - 1, top = 0, bottom = matrix.length - 1;
+        int size = (right + 1) * (bottom + 1);
+        int[] ans = new int[size];
+        int point = 0;
+        while (point < size) {
+            for (int i = left; i <= right; i++) {
+                ans[point++] = matrix[top][i];
+            }
+            if (top++ == bottom) break;
+            for (int i = top; i <= bottom; i++) {
+                ans[point++] = matrix[i][right];
+            }
+            if (right-- == left) break;
+            for (int i = right; i >= left; i--) {
+                ans[point++] = matrix[bottom][i];
+            }
+            if (bottom-- == top) break;
+            for (int i = bottom; i >= top; i--) {
+                ans[point++] = matrix[i][left];
+            }
+            left++;
+        }
+
+        return ans;
+    }
+}
+```
+
