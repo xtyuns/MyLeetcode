@@ -951,3 +951,50 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 30. 包含min函数的栈
+
+> 使用非严格降序的辅助栈保存 min 值，来实现 O(1) 的访问，ok
+
+![Picture1.png](readme.assets/f31f4b7f5e91d46ea610b6685c593e12bf798a9b8336b0560b6b520956dd5272-Picture1.png)
+
+```java
+class MinStack {
+
+    /** initialize your data structure here. */
+    Stack<Integer> data = new Stack<>();
+    Stack<Integer> min = new Stack<>();
+    public MinStack() {
+    }
+
+    public void push(int x) {
+        data.push(x);
+        if (min.empty() || min.peek() >= x) min.push(x);
+    }
+
+    public void pop() {
+        if (data.pop().equals(min.peek())) min.pop();
+    }
+
+    public int top() {
+        return data.peek();
+    }
+
+    public int min() {
+        return min.peek();
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.min();
+ */
+```
+
