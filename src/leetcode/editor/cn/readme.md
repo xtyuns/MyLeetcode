@@ -1064,3 +1064,71 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 32 - II. 从上到下打印二叉树 II
+
+> 一、bfs基础之上添加统计第 n 层的计数操作，ok
+>
+> 二、递归，perfect
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (null == root) return ans;
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> integers = new ArrayList<>();
+            // 当前队列中的所有元素为同一层
+            for (int i = 0; i < size; i++) {
+                TreeNode poll = queue.remove();
+                integers.add(poll.val);
+                if (null != poll.left) queue.add(poll.left);
+                if (null != poll.right) queue.add(poll.right);
+            }
+            ans.add(integers);
+        }
+
+        return ans;
+    }
+}
+```
+
+```java
+class Solution {
+    List<List<Integer>> ans = new ArrayList<>();
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        // 递归实现二叉树的二维数组格式层序遍历
+        // i 代表目前正在遍历的层数(从0开始)
+        recur(root, 0);
+        return ans;
+    }
+
+    private void recur(TreeNode root, int i) {
+        if (null == root) return;
+        // 初始化第 i 层的列表
+        if (i == ans.size()) ans.add(new ArrayList<>());
+        // 放置到对应的二维数组中
+        ans.get(i).add(root.val);
+        // 左右分别递归执行 i+1 层
+        recur(root.left, i + 1);
+        recur(root.right, i + 1);
+    }
+}
+```
+
