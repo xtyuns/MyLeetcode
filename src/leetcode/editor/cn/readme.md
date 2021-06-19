@@ -1025,3 +1025,42 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 32 - I. 从上到下打印二叉树
+
+> bfs，树的层序遍历，ok
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int[] levelOrder(TreeNode root) {
+        // 实际测试案例中: 节点总数 <= 1009
+        int[] ans = new int[1009];
+        int cursor = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode remove = queue.remove();
+            if (null == remove) continue;
+            queue.add(remove.left);
+            queue.add(remove.right);
+            ans[cursor++] = remove.val;
+        }
+
+        return Arrays.copyOfRange(ans, 0, cursor);
+    }
+}
+```
+
