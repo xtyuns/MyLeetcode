@@ -998,3 +998,30 @@ class MinStack {
  */
 ```
 
+
+
+
+
+## 31. 栈的压入、弹出序列
+
+> 使用栈去模拟操作，ok
+
+```java
+class Solution {
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        Stack<Integer> stack = new Stack<>();
+        int cursor = 0, popLength = popped.length;
+
+        for (int i : pushed) {
+            stack.push(i);
+            while (!stack.empty() && cursor < popLength && popped[cursor] == stack.peek()) {
+                stack.pop();
+                cursor++;
+            }
+        }
+
+        return cursor == popLength;
+    }
+}
+```
+
