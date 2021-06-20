@@ -1250,3 +1250,53 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 33. 二叉搜索树的后序遍历序列
+
+> 一、递归（ok）:
+> 1. 先以第一个大于根节点的节点为分界点，左侧作为左子树，右侧作为右子树(后序遍历)
+> 2. 再判断右子树中的所有节点是否都大于根节点
+> 3. 最后递归判断左右子树是否符合BST
+>
+> 二、迭代，还原二叉树的思路，使用辅助栈，倒叙遍历 postorder 数组，(较难理解)perfect
+
+```java
+class Solution {
+    public boolean verifyPostorder(int[] postorder) {
+        if (null == postorder) return false;
+        return recur(postorder, 0, postorder.length - 1);
+    }
+
+    private boolean recur(int[] postorder, int i, int j) {
+        if (i >= j) return true;
+        int m = i;
+        // 左子树的所有节点都小于根节点
+        while (postorder[m] < postorder[j]) m++;
+        // 判断右子树是否都大于根节点
+        int n = m;
+        while (postorder[n] > postorder[j]) n++;
+        return n == j && recur(postorder, i, m - 1) && recur(postorder, m, j - 1);
+    }
+}
+```
+
+```java
+class Solution {
+    public boolean verifyPostorder(int[] postorder) {
+        Stack<Integer> stack = new Stack<>();
+        // 将原二叉树作为 root 的左子树
+        int root = Integer.MAX_VALUE;
+        for(int i = postorder.length - 1; i >= 0; i--) {
+            if(postorder[i] > root) return false;
+            while(!stack.isEmpty() && stack.peek() > postorder[i])
+            	root = stack.pop();
+            stack.add(postorder[i]);
+        }
+        return true;
+    }
+}
+```
+
