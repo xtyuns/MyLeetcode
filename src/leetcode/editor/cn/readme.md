@@ -1132,3 +1132,121 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 32 - III. 从上到下打印二叉树 III
+
+> 一、层序遍历，当偶数层时反转二级列表中的数据，ok
+>
+> 二、使用双端列表作为二级列表，当偶数层时向头部插入数据从而实现顺序反转，ok
+>
+> 三、从左到右、从右到左为一组，每次 while 循环打印两层，关键是使用双端队列保证下一层的序列为从左到右的顺序，perfect(较难理解)
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (null == root) return ans;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> integers = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode treeNode = queue.remove();
+                integers.add(treeNode.val);
+
+                if (null != treeNode.left) queue.add(treeNode.left);
+                if (null != treeNode.right) queue.add(treeNode.right);
+            }
+
+            if (ans.size() % 2 == 1) Collections.reverse(integers);
+            ans.add(integers);
+        }
+
+        return ans;
+    }
+}
+```
+
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (null == root) return ans;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            LinkedList<Integer> integers = new LinkedList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode treeNode = queue.remove();
+                if (ans.size() % 2 == 0) integers.addLast(treeNode.val);
+                else integers.addFirst(treeNode.val);
+
+                if (null != treeNode.left) queue.add(treeNode.left);
+                if (null != treeNode.right) queue.add(treeNode.right);
+            }
+
+            ans.add(integers);
+        }
+
+        return ans;
+    }
+}
+```
+
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (null == root) return ans;
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            List<Integer> integers = new ArrayList<>();
+            int size = queue.size();
+
+            // 从左到右打印
+            for (int i = 0; i < size; i++) {
+                TreeNode treeNode = queue.removeFirst();
+                integers.add(treeNode.val);
+
+                if (null != treeNode.left) queue.addLast(treeNode.left);
+                if (null != treeNode.right) queue.addLast(treeNode.right);
+            }
+            ans.add(integers);
+
+            // 从右到左打印
+            size = queue.size();
+            if (size == 0) break;
+            integers = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode treeNode = queue.removeLast();
+                integers.add(treeNode.val);
+
+                if (null != treeNode.right) queue.addFirst(treeNode.right);
+                if (null != treeNode.left) queue.addFirst(treeNode.left);
+            }
+            ans.add(integers);
+        }
+
+        return ans;
+    }
+}
+```
+
