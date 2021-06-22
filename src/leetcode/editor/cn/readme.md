@@ -1354,3 +1354,52 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 35. 复杂链表的复制
+
+> 第一次循环后，map 类似于一个缓存池，此时里面存放未初始化完成的 Node 节点；
+> 第二次循环后，map 中的所有节点都已经初始化完成了。
+
+```java
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+class Solution {
+    // 深拷贝
+    public Node copyRandomList(Node head) {
+        Map<Node, Node> map = new HashMap<>();
+        Node cur = head;
+
+        // 先拷贝一份 Node 的 val 的 map
+        while (cur != null) {
+            map.put(cur, new Node(cur.val));
+            cur = cur.next;
+        }
+
+        cur = head;
+        while (cur != null) {
+            Node tmp = map.get(cur);
+            tmp.next = map.get(cur.next);
+            tmp.random = map.get(cur.random);
+            cur = cur.next;
+        }
+
+        return map.get(head);
+    }
+}
+```
+
