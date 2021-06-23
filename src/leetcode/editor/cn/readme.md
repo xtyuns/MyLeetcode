@@ -1403,3 +1403,100 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 36. 二叉搜索树与双向链表
+
+> 一、中序遍历获取节点顺序，再循环遍历调整前后指针，ok
+>
+> 二、通过中序遍历直接调整节点的左右指针，perfect
+
+```java
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val,Node _left,Node _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+class Solution {
+    List<Node> list = new ArrayList<>();
+    public Node treeToDoublyList(Node root) {
+        if (null == root) return null;
+        inOrder(root);
+        
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            if (i == 0) {
+                list.get(i).left = list.get(size - 1);
+            } else {
+                list.get(i).left = list.get(i - 1);
+            }
+
+            if (i == size - 1) {
+                list.get(i).right = list.get(0);
+            } else {
+                list.get(i).right = list.get(i + 1);
+            }
+        }
+
+        return list.get(0);
+    }
+
+    private void inOrder(Node root) {
+        if (null == root) return;
+        inOrder(root.left);
+        list.add(root);
+        inOrder(root.right);
+    }
+}
+```
+
+```java
+class Solution {
+    // 解题的关键: head 节点的初始化以及使用 pre 变量保存前一个节点
+    Node head, pre;
+    public Node treeToDoublyList(Node root) {
+        if (null == root) return null;
+        dfs(root);
+
+        // 调整第一个节点的前序指针以及最后一个节点的后序指针
+        head.left = pre;
+        pre.right = head;
+
+        return head;
+    }
+
+    private void dfs(Node root) {
+        if (null == root) return;
+        dfs(root.left);
+
+        // 第一个节点时进行 head 变量的初始化(同时 pre 变量也会进行更新)
+        if (null == head) {
+            head = root;
+        } else {  // 调整当前节点的前序指针以及 pre 节点的后序指针
+            root.left = pre;
+            pre.right = root;
+        }
+        pre = root;
+
+        dfs(root.right);
+    }
+}
+```
+
