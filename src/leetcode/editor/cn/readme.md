@@ -1623,3 +1623,33 @@ class Solution {
 }
 ```
 
+
+
+
+
+## 39. 数组中出现次数超过一半的数字
+
+> 一、利用哈希表辅助空间计数，ok
+>
+> 二、排序，由于众数的数量大于 n/2，因此nums[nums.leng/2] 位置的数字在排序之后一定为目标数字，ok
+>
+> 三、摩尔投票法，perfect
+
+```java
+class Solution {
+    public int majorityElement(int[] nums) {
+        int ans = nums[0];
+        int count = 0;
+        for (int num : nums) {
+            // ans 为当前认可的众数, 遇到同伴数字, 则计数+1
+            if (num == ans) count++;
+            else if (count == 0) {  // ans 的计数为0, 重置 ans 的值
+                ans = num;
+                count++;
+            } else {  // ans 的计数大于 0, 遇到非同伴数字, 计数-1
+                count--;
+            }
+        }
+        return ans;
+    }
+}
