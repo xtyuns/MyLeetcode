@@ -1864,3 +1864,35 @@ class Solution {
 }
 ```
 
+
+
+## 44. 数字序列中某一位的数字
+
+> 数学规律，注意 start、count 的溢出问题，以及 num 的取值和 chatAt 的索引问题，perfect
+
+```java
+class Solution {
+    public int findNthDigit(int n) {
+        int ans = n;
+
+        int digit = 1;
+        long start = 1;
+        long count = 9;
+
+        while (n > count) {
+            n -= count;
+            digit++;
+            start *= 10;
+            count = 9 * start * digit;
+        }
+
+        int num = (int) (start + (n - 1) / digit);
+
+
+        return String.valueOf(num).charAt(--n % digit) - '0';
+    }
+}
+```
+
+
+
