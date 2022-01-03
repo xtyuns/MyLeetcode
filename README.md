@@ -17,11 +17,13 @@ package leetcode.editor.cn;
 // [${question.frontendQuestionId}] ${question.title}
 // $!velocityTool.date()
 
-public class $!velocityTool.camelCaseName(${question.titleSlug}){
+public class $!velocityTool.camelCaseName(${question.titleSlug}) {
+  int id = ${question.frontendQuestionId};
+  
   public static void main(String[] args) {
-      Solution solution = new Solution();
+      Solution solution = new $!velocityTool.camelCaseName(${question.titleSlug})().new Solution();
   }
-}
-
+  
 ${question.code}
+}
 ```
