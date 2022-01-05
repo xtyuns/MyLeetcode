@@ -1,53 +1,62 @@
 package leetcode.editor.cn;
 // [剑指 Offer 07] 重建二叉树
-// 2021-06-12 20:27:24
+// 2022-01-04 20:25:14
 
 import common.TreeNode;
 
-import java.util.*;
+import java.util.HashMap;
 
 public class ZhongJianErChaShuLcof {
-    // copy method to here
+  String id = "剑指 Offer 07";
+  
+  public static void main(String[] args) {
+      Solution solution = new ZhongJianErChaShuLcof().new Solution();
+  }
+  
+//leetcode submit region begin(Prohibit modification and deletion)
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        if (preorder.length == 0) {
+        if (null == preorder || null == inorder || preorder.length == 0)
             return null;
-        }
+        if (preorder.length != inorder.length)
+            throw new IllegalArgumentException("Unexpect Args");
 
-        TreeNode treeNode = new TreeNode(preorder[0]);
-        int left_length = 0;
+        // 使用 hashmap 保存中序索引, 优化遍历获取索引的开销
+        HashMap<Integer, Integer> midIdxMap = new HashMap<>();
         for (int i = 0; i < inorder.length; i++) {
-            if (inorder[i] == preorder[0]) {
-                left_length = i;
-                break;
-            }
+            midIdxMap.put(inorder[i], i);
         }
 
-        treeNode.left = buildTree(Arrays.copyOfRange(preorder, 1, 1 + left_length), Arrays.copyOfRange(inorder, 0, left_length));
-        treeNode.right = buildTree(Arrays.copyOfRange(preorder, 1 + left_length, preorder.length), Arrays.copyOfRange(inorder, left_length + 1, inorder.length));
-        return treeNode;
+        return recur(preorder, midIdxMap, 0, 0, preorder.length);
     }
 
-    private List<int[]> splitArr(int[] preorder, int i) {
-        List<int[]> result = new ArrayList<>();
-        for (int i1 = 0; i1 < preorder.length; i1++) {
-            if (preorder[i1] == i) {
-                result.add(Arrays.copyOfRange(preorder, 0, i1));
-                result.add(Arrays.copyOfRange(preorder, i1 + 1, preorder.length));
-                break;
-            }
-        }
+    private TreeNode recur(int[] preorder, HashMap<Integer, Integer> midIdxMap,
+                           int rootPreIdx, int midLeft, int midRight) {
+        // 如果中序集合的左右边界不正常, 则说明该节点是不存在的
+        if (midLeft >= midRight) return null;
 
-        return result;
-    }
+        // 构建当前根节点
+        int cur = preorder[rootPreIdx];
+        TreeNode head = new TreeNode(cur);
 
-    public void debug() {
-        int[] p = new int[]{3, 9, 20, 15, 7};
-        int[] i = new int[]{9,3,15,20,7};
-        buildTree(p, i);
-    }
+        // 根据先序遍历和中序遍历的特点递归构造左右子树
+        int curMidIdx = midIdxMap.get(cur);
+        head.left = recur(preorder, midIdxMap, rootPreIdx + 1, midLeft, curMidIdx);
+        // 这里的 rootPreIdx 需要减去 midLeft, 因为 curMidIdx 中包含了父节点中的节点, 所以这里以 midLeft 为参考原点
+        head.right = recur(preorder, midIdxMap, rootPreIdx + 1 + (curMidIdx - midLeft), curMidIdx + 1, midRight);
 
-    public static void main(String[] args) {
-        ZhongJianErChaShuLcof solution = new ZhongJianErChaShuLcof();
-        solution.debug();
+        return head;
     }
+}
+//leetcode submit region end(Prohibit modification and deletion)
+
 }
